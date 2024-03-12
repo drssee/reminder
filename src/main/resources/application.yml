@@ -1,0 +1,19 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:mariadb://localhost:3306/reminder
+    username: kimnamhyun
+    password: root
+    driver-class-name: org.mariadb.jdbc.Driver
+
+kakao:
+  rest-api-key: 3c60b0c3af6586f1ec1b418502ab112a
+  redirect-uri: http://localhost:8080/login-callback
+  after-login-uri: http://localhost:8080
+  token-check-uri: https://kapi.kakao.com/v1/user/access_token_info
+  client-secret:
+  authorize-uri: https://kauth.kakao.com/oauth/authorize
+  token-uri: https://kauth.kakao.com/oauth/token
+  kakao-api-host: https://kapi.kakao.com
