@@ -10,6 +10,7 @@ import project.reminder.common.enums.HttpConst;
 import project.reminder.common.service.HttpCallService;
 import project.reminder.common.transformer.Trans;
 import project.reminder.core.service.UserService;
+import project.reminder.login.dto.SessionUserDto;
 import project.reminder.login.service.LoginService;
 
 @Service
@@ -62,10 +63,13 @@ public class KakaoLoginService implements LoginService {
     @Override
     public String logout() {
         String uri = KAKAO_API_HOST + "/v1/user/logout";
+        String token = (String) httpSession.getAttribute("token");
+        httpSession.removeAttribute("token");
+        httpSession.removeAttribute("user");
         return httpCallService.callWithToken(
                 HttpConst.POST,
                 uri,
-                (String) httpSession.getAttribute("token")
+                token
         );
     }
 
@@ -79,5 +83,17 @@ public class KakaoLoginService implements LoginService {
         if(!scope.isEmpty()) uri += "&scope="+scope;
 
         return new RedirectView(uri);
+    }
+
+    @Override
+    public SessionUserDto getUser() {
+        String uri = KAKAO_API_HOST + "/v2/user/me";
+        String token = (String) httpSession.getAttribute("token");
+        String result = httpCallService.callWithToken(
+                HttpConst.GET,
+                uri,
+                token
+        );
+        return Trans.parseJson(result, SessionUserDto.class);
     }
 }

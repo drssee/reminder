@@ -7,6 +7,14 @@ spring:
     username: kimnamhyun
     password: root
     driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MariaDBDialect
+        format_sql: true
+    show-sql: true
 
 kakao:
   rest-api-key: 3c60b0c3af6586f1ec1b418502ab112a
@@ -17,3 +25,8 @@ kakao:
   authorize-uri: https://kauth.kakao.com/oauth/authorize
   token-uri: https://kauth.kakao.com/oauth/token
   kakao-api-host: https://kapi.kakao.com
+
+logging:
+  level:
+    project:
+      reminder: debug

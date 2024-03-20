@@ -4,10 +4,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import org.modelmapper.ModelMapper;
 
 public class Trans {
 
 	private static final ObjectMapper objectMapper = new ObjectMapper();
+
+    private static final ModelMapper modelMapper = new ModelMapper();
 
     // TODO CALENDAR 타입으로 변경 필요, 클릭시 상세정보로 이동되도록
     public static String createTemplate(String text) {
@@ -41,5 +44,13 @@ public class Trans {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static <D, E> E dtoToEntity(D dto, Class<E> entityClass) {
+        return modelMapper.map(dto, entityClass);
+    }
+
+    public static <D, E> D entityToDto(E entity, Class<D> dtoClass) {
+        return modelMapper.map(entity, dtoClass);
     }
 }

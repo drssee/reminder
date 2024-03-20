@@ -21,8 +21,4 @@ public class ExceptionController {
         return new ResponseEntity<>("Internal Server Error: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-//    @ExceptionHandler(HttpClientErrorException.Unauthorized.class)
-//    public ResponseEntity<String> handleUnauthorizedException(HttpClientErrorException.Unauthorized e) {
-//        return new ResponseEntity<>("Custom Unauthorized Message", HttpStatus.UNAUTHORIZED);
-//    }
 }

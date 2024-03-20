@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.view.RedirectView;
+import project.reminder.common.annotation.AuthenticatedOnly;
+import project.reminder.login.dto.SessionUserDto;
 import project.reminder.login.service.LoginService;
 
 /**
@@ -37,5 +39,12 @@ public class LoginController {
     @GetMapping("/logout")
     public String logout() {
         return loginService.logout();
+    }
+
+    // 유저 프로필
+    @AuthenticatedOnly
+    @GetMapping("/profile")
+    public SessionUserDto getProfile() {
+        return loginService.getUser();
     }
 }
