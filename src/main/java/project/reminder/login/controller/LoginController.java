@@ -1,8 +1,6 @@
 package project.reminder.login.controller;
 
-import io.swagger.v3.oas.annotations.Hidden;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,8 +18,7 @@ import project.reminder.login.service.LoginService;
  */
 @RestController
 @RequiredArgsConstructor
-@Hidden
-@Slf4j
+//@Hidden
 public class LoginController {
 
     private final LoginService loginService;
@@ -33,7 +30,7 @@ public class LoginController {
 
     @GetMapping("/login-callback")
     public RedirectView loginCallback(@RequestParam("code") String code) {
-        return loginService.loginCallback(code); // TODO 지정된 프론트 페이지로 이동시키도록 수정해야함
+        return loginService.loginCallback(code);
     }
 
     @GetMapping("/logout")
@@ -42,7 +39,7 @@ public class LoginController {
     }
 
     // 유저 프로필
-    @AuthenticatedOnly
+    @AuthenticatedOnly()
     @GetMapping("/profile")
     public SessionUserDto getProfile() {
         return loginService.getUser();

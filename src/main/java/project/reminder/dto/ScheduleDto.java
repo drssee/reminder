@@ -13,10 +13,11 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class ScheduleDto extends UserIdDto {
+public class ScheduleDto {
 
     private Long id;
 
+    @JsonProperty("user_id")
     private String userId;
 
     // 일정

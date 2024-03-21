@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class SendMessageDto extends UserIdDto {
+public class SendMessageDto {
 
     @JsonProperty("user_id")
     private String userId;

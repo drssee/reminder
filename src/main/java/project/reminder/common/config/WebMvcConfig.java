@@ -7,14 +7,17 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import project.reminder.common.interceptor.AuthenticationCheckInterceptor;
-import project.reminder.common.service.HttpCallService;
+import project.reminder.common.util.SessionUtil;
+import project.reminder.common.util.TransUtil;
+import project.reminder.common.util.service.HttpCallService;
 
 @Configuration
 @RequiredArgsConstructor
 public class WebMvcConfig implements WebMvcConfigurer {
 
     private final HttpCallService httpCallService;
-
+    private final SessionUtil sessionUtil;
+    private final TransUtil transUtil;
     @Value("${kakao.token-check-uri}")
     private String TOKEN_CHECK_URI;
 
@@ -30,7 +33,12 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(
-                new AuthenticationCheckInterceptor(httpCallService, TOKEN_CHECK_URI)
+                new AuthenticationCheckInterceptor(
+                        httpCallService,
+                        sessionUtil,
+                        transUtil,
+                        TOKEN_CHECK_URI
+                )
         );
     }
 }

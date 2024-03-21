@@ -13,10 +13,13 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class UsersDto extends UserIdDto {
+public class UsersDto {
 
     @JsonProperty("id")
     private Long id;
+
+    @JsonProperty("user_id")
+    private String userId;
 
     @JsonProperty("connected_at")
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'")
@@ -24,7 +27,6 @@ public class UsersDto extends UserIdDto {
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime connectedAt;
 
-    // TODO 기타 설정들 추가
     @JsonProperty("use_yn")
     private String useYn;
 }

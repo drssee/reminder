@@ -8,13 +8,12 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.Getter;
 import lombok.Setter;
-import project.reminder.dto.UserIdDto;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class SessionUserDto extends UserIdDto {
+public class SessionUserDto {
 
     @JsonProperty("id")
     private Long id;

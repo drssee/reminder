@@ -19,7 +19,7 @@ spring:
 kakao:
   rest-api-key: 3c60b0c3af6586f1ec1b418502ab112a
   redirect-uri: http://localhost:8080/login-callback
-  after-login-uri: http://localhost:8080
+  after-login-uri: /index.html
   token-check-uri: https://kapi.kakao.com/v1/user/access_token_info
   client-secret:
   authorize-uri: https://kauth.kakao.com/oauth/authorize

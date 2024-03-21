@@ -1,4 +1,4 @@
-package project.reminder.common.service;
+package project.reminder.common.util.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

@@ -6,11 +6,13 @@ import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Users {
@@ -20,6 +22,4 @@ public class Users {
 
     @Column(name = "connected_at")
     private LocalDateTime connectedAt;
-
-    // TODO 기타 설정들 추가
 }

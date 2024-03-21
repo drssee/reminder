@@ -1,19 +1,26 @@
-package project.reminder.common.transformer;
+package project.reminder.common.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import jakarta.servlet.ServletInputStream;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Component;
 
-public class Trans {
+import java.io.IOException;
+import java.io.InputStream;
 
-	private static final ObjectMapper objectMapper = new ObjectMapper();
+@Component
+@RequiredArgsConstructor
+public class TransUtil {
 
-    private static final ModelMapper modelMapper = new ModelMapper();
+	private final ObjectMapper objectMapper;
 
-    // TODO CALENDAR 타입으로 변경 필요, 클릭시 상세정보로 이동되도록
-    public static String createTemplate(String text) {
+    private final ModelMapper modelMapper;
+
+    public String createTemplate(String text) {
         return String.format("template_object={\n"
                         + "        \"object_type\": \"text\",\n"
                         + "        \"text\": \"%s\",\n"
@@ -25,12 +32,12 @@ public class Trans {
                 text);
     }
 	
-    public static String token(String rtn, JsonParser parser) {
+    public String token(String rtn, JsonParser parser) {
         JsonElement element = parser.parse(rtn);       
         return element.getAsJsonObject().get("access_token").getAsString();
     }
 
-	public static <T> T parseJson(String json, Class<T> clazz) {
+	public <T> T parseJson(String json, Class<T> clazz) {
         try {
             return objectMapper.readValue(json, clazz);
         } catch (JsonProcessingException e) {
@@ -38,7 +45,7 @@ public class Trans {
         }
     }
 
-	public static String valueAsJson(Object obj) {
+	public String valueAsJson(Object obj) {
         try {
             return objectMapper.writeValueAsString(obj);
         } catch (JsonProcessingException e) {
@@ -46,11 +53,15 @@ public class Trans {
         }
     }
 
-    public static <D, E> E dtoToEntity(D dto, Class<E> entityClass) {
+    public <D, E> E dtoToEntity(D dto, Class<E> entityClass) {
         return modelMapper.map(dto, entityClass);
     }
 
-    public static <D, E> D entityToDto(E entity, Class<D> dtoClass) {
+    public <D, E> D entityToDto(E entity, Class<D> dtoClass) {
         return modelMapper.map(entity, dtoClass);
+    }
+
+    public <T> T parseBody(InputStream inputStream, Class<T> bodyType) throws IOException {
+        return objectMapper.readValue(inputStream, bodyType);
     }
 }

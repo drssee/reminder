@@ -7,9 +7,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.view.RedirectView;
 import project.reminder.common.enums.HttpConst;
-import project.reminder.common.service.HttpCallService;
-import project.reminder.common.transformer.Trans;
-import project.reminder.core.service.UserService;
+import project.reminder.common.util.TransUtil;
+import project.reminder.common.util.service.HttpCallService;
 import project.reminder.login.dto.SessionUserDto;
 import project.reminder.login.service.LoginService;
 
@@ -21,7 +20,7 @@ public class KakaoLoginService implements LoginService {
 
     private final HttpSession httpSession;
 
-    private final UserService userService;
+    private final TransUtil transUtil;
 
     @Value("${kakao.rest-api-key}")
     private String REST_API_KEY;
@@ -44,8 +43,6 @@ public class KakaoLoginService implements LoginService {
     @Value("${kakao.kakao-api-host}")
     private String KAKAO_API_HOST;
 
-    private String DEFAULT_SCOPE = "talk_message";
-
     @Override
     public RedirectView login() {
         return goKakaoOAuth();
@@ -55,8 +52,8 @@ public class KakaoLoginService implements LoginService {
     public RedirectView loginCallback(String code) {
         String param = "grant_type=authorization_code&client_id="+REST_API_KEY+"&redirect_uri="+REDIRECT_URI+"&client_secret="+CLIENT_SECRET+"&code="+code;
         String rtn = httpCallService.call(HttpConst.POST, TOKEN_URI, HttpConst.EMPTY, param);
-        httpSession.setAttribute("token", Trans.token(rtn, new JsonParser()));
-        httpSession.setAttribute("user", userService.getUser());
+        httpSession.setAttribute("token", transUtil.token(rtn, new JsonParser()));
+        httpSession.setAttribute("user", getUser());
         return new RedirectView(AFTER_LOGIN_URI);
     }
 
@@ -74,7 +71,7 @@ public class KakaoLoginService implements LoginService {
     }
 
     public RedirectView goKakaoOAuth() {
-        return goKakaoOAuth(DEFAULT_SCOPE);
+        return goKakaoOAuth("");
     }
 
     public RedirectView goKakaoOAuth(String scope) {
@@ -94,6 +91,6 @@ public class KakaoLoginService implements LoginService {
                 uri,
                 token
         );
-        return Trans.parseJson(result, SessionUserDto.class);
+        return transUtil.parseJson(result, SessionUserDto.class);
     }
 }
